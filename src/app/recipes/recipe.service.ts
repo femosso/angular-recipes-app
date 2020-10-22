@@ -9,24 +9,26 @@ import { Subject } from 'rxjs';
 export class RecipeService {
     recipesChanged = new Subject<Recipe[]>();
 
-    private recipes: Recipe[] = [
-        new Recipe(
-            'A Test Recipe',
-            'This is simply a test',
-            'https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2019/04/Guacamole-Recipe.jpg',
-            [
-                new Ingredient('Meat', 1),
-                new Ingredient('French Friends', 20),
-            ]),
-        new Recipe(
-            'Another Test Recipe',
-            'This is simply a test',
-            'https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2019/04/Guacamole-Recipe.jpg',
-            [
-                new Ingredient('Buns', 2),
-                new Ingredient('Meat', 1),
-            ])
-    ];
+    // private recipes: Recipe[] = [
+    //     new Recipe(
+    //         'A Test Recipe',
+    //         'This is simply a test',
+    //         'https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2019/04/Guacamole-Recipe.jpg',
+    //         [
+    //             new Ingredient('Meat', 1),
+    //             new Ingredient('French Friends', 20),
+    //         ]),
+    //     new Recipe(
+    //         'Another Test Recipe',
+    //         'This is simply a test',
+    //         'https://i2.wp.com/www.downshiftology.com/wp-content/uploads/2019/04/Guacamole-Recipe.jpg',
+    //         [
+    //             new Ingredient('Buns', 2),
+    //             new Ingredient('Meat', 1),
+    //         ])
+    // ];
+
+    private recipes: Recipe[] = [];
 
     constructor(private shoppingListService: ShoppingListService) {
 
@@ -56,6 +58,11 @@ export class RecipeService {
 
     deleteRecipe(index: number) {
         this.recipes.splice(index, 1);
+        this.recipesChanged.next(this.recipes.slice());
+    }
+
+    setRecipes(recipes: Recipe[]) {
+        this.recipes = recipes;
         this.recipesChanged.next(this.recipes.slice());
     }
 }
